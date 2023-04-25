@@ -46,3 +46,8 @@ void AChargingStation::Tick(float DeltaTime)
 
 }
 
+void AChargingStation::InteractPure()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Green, TEXT("PureCalled"));
+}
+

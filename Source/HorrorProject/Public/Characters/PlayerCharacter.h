@@ -56,6 +56,8 @@ public:
 
 	void MoveRight(float Val);
 
+	void InteractInput();
+
 	UFUNCTION(BlueprintCallable)
 	void FlashlightSwitch(EFlashLightState NewFlashlightState);
 

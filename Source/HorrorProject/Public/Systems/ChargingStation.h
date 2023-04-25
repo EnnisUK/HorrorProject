@@ -5,13 +5,15 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Characters/PlayerCharacter.h"
+#include "Interfaces/InteractInterface.h"
 #include "ChargingStation.generated.h"
+
 
 
 class UStaticMeshComponent;
 
 UCLASS()
-class HORRORPROJECT_API AChargingStation : public AActor
+class HORRORPROJECT_API AChargingStation : public AActor, public IInteractInterface
 {
 	GENERATED_BODY()
 	
@@ -37,5 +39,8 @@ public:
 	APlayerCharacter* Player;
 
 	FTimerHandle ChargeTimer;
+
+
+	virtual void InteractPure() override; // C++ Function
 
 };

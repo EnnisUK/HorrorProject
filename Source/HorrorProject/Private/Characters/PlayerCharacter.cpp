@@ -73,7 +73,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// AxisMapping
-
+	
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("Move Right / Left", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
@@ -81,6 +81,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	// ActionMappings
 	
+	PlayerInputComponent->BindAction("Interact", this, IE_Pressed, &APlayerCharacter::InteractInput);
+
 }
 
 void APlayerCharacter::MoveForward(float Val)
@@ -91,6 +93,10 @@ void APlayerCharacter::MoveForward(float Val)
 void APlayerCharacter::MoveRight(float Val)
 {
 	AddMovementInput(GetActorRightVector() * Val);
+}
+
+void APlayerCharacter::InteractInput()
+{
 }
 
 void APlayerCharacter::FlashlightSwitch(EFlashLightState NewFlashlightState)
