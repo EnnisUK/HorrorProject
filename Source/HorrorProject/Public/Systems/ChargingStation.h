@@ -4,10 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Characters/PlayerCharacter.h"
+#include "Characters/HorrorCharacter.h"
 #include "Interfaces/InteractInterface.h"
 #include "ChargingStation.generated.h"
 
+
+UENUM(BlueprintType)
+enum EChargingState
+{
+	Charging,
+	NotCharging
+};
 
 
 class UStaticMeshComponent;
@@ -20,6 +27,7 @@ class HORRORPROJECT_API AChargingStation : public AActor, public IInteractInterf
 public:	
 	// Sets default values for this actor's properties
 	AChargingStation();
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,11 +44,17 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		UStaticMeshComponent* PhoneMesh;
 
-	APlayerCharacter* Player;
-
 	FTimerHandle ChargeTimer;
+
+	AHorrorCharacter* HorrorCharacter;
+
+	// Enums
+
+	EChargingState ChargingState;
 
 
 	virtual void InteractPure() override; // C++ Function
+
+	void CallCharging();
 
 };

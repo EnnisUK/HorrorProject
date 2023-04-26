@@ -4,11 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "PlayerCharacter.generated.h"
+#include "Systems/Interfaces/InteractInterface.h"
+#include "Animation/WidgetAnimation.h"
+#include "HorrorCharacter.generated.h"
+
 
 
 class UCameraComponent;
 class USpotLightComponent;
+class USoundBase;
 
 UENUM(BlueprintType)
 enum EFlashLightState
@@ -18,13 +22,13 @@ enum EFlashLightState
 };
 
 UCLASS()
-class HORRORPROJECT_API APlayerCharacter : public ACharacter
+class HORRORPROJECT_API AHorrorCharacter : public ACharacter, public IInteractInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	APlayerCharacter();
+	AHorrorCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -58,8 +62,51 @@ public:
 
 	void InteractInput();
 
+	void ClearMessage();
+
 	UFUNCTION(BlueprintCallable)
-	void FlashlightSwitch(EFlashLightState NewFlashlightState);
+	FString Message(FString TextMessage);
+
+	// Character Variables
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float InteractDistance = 200.f;
+
+
+		virtual void InteractPure() override;
+
+
+		UPROPERTY(BlueprintReadOnly)
+			bool HidePhone;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			UUserWidget* PhoneWidget;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			USoundBase* PhoneOpenSFX;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			USoundBase* PhoneCloseSFX;
+
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			USoundBase* PhoneMessageSFX;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			bool HasMessage;
+
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			bool PhoneIsUp;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+			UWidgetAnimation* PulseIn;
+
+		FTimerHandle MessageTimer;
+			
+
+	UFUNCTION(BlueprintCallable)
+	void FlashlightSwitch();
 
 	// Flashlight Variables
 
@@ -76,8 +123,8 @@ public:
 
 	FTimerHandle FlashlightTimer;
 
-	
-	EFlashLightState FlashLightState;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TEnumAsByte<EFlashLightState> FlashLightState;
 
 	UPROPERTY(EditDefaultsOnly)
 		float DrainAmount;
@@ -85,8 +132,14 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		float ChargeAmount;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float MaxBattery = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float CurrentBattery;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UMaterial* PhoneOff;
+
 
 	// Flashlight Functions
 
@@ -94,6 +147,7 @@ public:
 
 	void ChargeBattery();
 
+	UPROPERTY(BlueprintReadOnly)
 	bool b_StartCharge = false;
 
 };

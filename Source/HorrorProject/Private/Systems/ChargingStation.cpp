@@ -24,30 +24,64 @@ AChargingStation::AChargingStation()
 void AChargingStation::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
+	HorrorCharacter = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (HorrorCharacter != NULL)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Cast Successfull"));
+	}
+
+	ChargingState = EChargingState::NotCharging;
 }
 
 // Called every frame
 void AChargingStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (Player != NULL)
-	{
-		if (Player->b_StartCharge)
-		{
-			Player->ChargeBattery();
-			PhoneMesh->SetHiddenInGame(false);
-		}
-	}
 	
 
 }
 
 void AChargingStation::InteractPure()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Green, TEXT("PureCalled"));
+
+	switch (ChargingState)
+	{
+	case Charging:
+		GetWorldTimerManager().ClearTimer(ChargeTimer);
+		PhoneMesh->SetHiddenInGame(true);
+		HorrorCharacter->b_StartCharge = false;
+		ChargingState = EChargingState::NotCharging;
+		HorrorCharacter->PhoneMesh->SetHiddenInGame(false);
+		HorrorCharacter->PhoneMesh->SetRelativeLocation(HorrorCharacter->OffLocation);
+		HorrorCharacter->HidePhone = false;
+		break;
+	case NotCharging:
+		PhoneMesh->SetHiddenInGame(false);
+		HorrorCharacter->b_StartCharge = true;
+		ChargingState = EChargingState::Charging;
+		HorrorCharacter->PhoneMesh->SetHiddenInGame(true, true);
+		HorrorCharacter->HidePhone = true;
+		GetWorldTimerManager().SetTimer(ChargeTimer, this, &AChargingStation::CallCharging, 2.0f, true);
+		GetWorldTimerManager().ClearTimer(HorrorCharacter->DrainTimer);
+
+
+		break;
+	default:
+		GetWorldTimerManager().ClearTimer(ChargeTimer);
+		PhoneMesh->SetHiddenInGame(true);
+		HorrorCharacter->b_StartCharge = false;
+		ChargingState = EChargingState::NotCharging;
+		break;
+	}
+	
+
+	
+}
+
+void AChargingStation::CallCharging()
+{
+	HorrorCharacter->ChargeBattery();
 }
 
