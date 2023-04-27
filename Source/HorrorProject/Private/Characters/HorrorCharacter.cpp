@@ -128,13 +128,39 @@ void AHorrorCharacter::ClearMessage()
 {
 	HasMessage = false;
 	PhoneWidget->PlayAnimation(PulseIn, 0, 1, EUMGSequencePlayMode::Reverse);
+	hasShownMessage = false;
 
 }
 
+void AHorrorCharacter::HidePhoneWidget()
+{
+	PhoneWidget->RemoveFromParent();
+}
+
+void AHorrorCharacter::ShowPhoneWidget()
+{
+	PhoneWidget->AddToViewport();
+}
+
+void AHorrorCharacter::DrainSanity(float SanityDrainAmount)
+{
+	if (!IsInSanityRoom)
+	{
+		CurrentSanity -= SanityDrainAmount;
+		CurrentSanity = UKismetMathLibrary::FClamp(CurrentSanity, 0, MaxSanity);
+
+		if (CurrentSanity == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Dead"));
+		}
+
+	}
+
+}
+
+
 FString AHorrorCharacter::Message(FString TextMessage)
 {
-
-	TextMessage = "Don't Look Behind You";
 
 	return TextMessage;
 }
@@ -161,31 +187,32 @@ void AHorrorCharacter::FlashlightSwitch()
 			CameraSpotLight->SetHiddenInGame(true);
 			GetWorldTimerManager().ClearTimer(DrainTimer);
 			FlashLightState = EFlashLightState::FlashLightOff;
-			PhoneWidget->RemoveFromParent();
+			HidePhoneWidget();
 			if (PhoneCloseSFX)
 			{
 				UGameplayStatics::PlaySound2D(GetWorld(), PhoneCloseSFX);
 
 			}
-			PhoneIsUp = false;
 			break;
 		case FlashLightOff:
 
-			if (HasMessage)
+			if (HasMessage && hasShownMessage == false)
 			{
 				PhoneWidget->PlayAnimation(PulseIn);
+				hasShownMessage = true;
+				DrainSanity(10);
 				GetWorldTimerManager().SetTimer(MessageTimer, this, &AHorrorCharacter::ClearMessage, 5, false);
 			}
 			PhoneMesh->SetRelativeLocation(OnLocation);
 			CameraSpotLight->SetHiddenInGame(false);
 			FlashLightState = EFlashLightState::FlashLightOn;
 			GetWorldTimerManager().SetTimer(DrainTimer, this, &AHorrorCharacter::DrainBattery, 3.0f, true, 3.0f);
-			PhoneWidget->AddToViewport();
+			ShowPhoneWidget();
 			if (PhoneOpenSFX)
 			{
 				UGameplayStatics::PlaySound2D(GetWorld(), PhoneOpenSFX);
 			}
-			PhoneIsUp = true;
+			
 			break;
 		default:
 			break;

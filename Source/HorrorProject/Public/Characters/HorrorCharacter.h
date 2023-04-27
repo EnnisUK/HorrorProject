@@ -64,6 +64,13 @@ public:
 
 	void ClearMessage();
 
+	void HidePhoneWidget();
+
+	void ShowPhoneWidget();
+
+	UFUNCTION(BlueprintCallable)
+	void DrainSanity(float SanityDrainAmount);
+
 	UFUNCTION(BlueprintCallable)
 	FString Message(FString TextMessage);
 
@@ -75,12 +82,16 @@ public:
 
 		virtual void InteractPure() override;
 
+		UPROPERTY(BlueprintReadOnly)
+		bool IsInSanityRoom;
+
 
 		UPROPERTY(BlueprintReadOnly)
 			bool HidePhone;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			UUserWidget* PhoneWidget;
+
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
 			USoundBase* PhoneOpenSFX;
@@ -95,14 +106,21 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
 			bool HasMessage;
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+			float CurrentSanity;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
-			bool PhoneIsUp;
+			float MaxSanity = 100.f;
+
+		bool hasShownMessage = false;
+
 
 		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 			UWidgetAnimation* PulseIn;
 
 		FTimerHandle MessageTimer;
+
+		FTimerHandle DrainSanityTimer;
 			
 
 	UFUNCTION(BlueprintCallable)

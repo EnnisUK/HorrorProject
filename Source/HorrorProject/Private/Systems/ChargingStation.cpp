@@ -61,7 +61,9 @@ void AChargingStation::InteractPure()
 		PhoneMesh->SetHiddenInGame(false);
 		HorrorCharacter->b_StartCharge = true;
 		ChargingState = EChargingState::Charging;
+		HorrorCharacter->FlashLightState = EFlashLightState::FlashLightOff;
 		HorrorCharacter->PhoneMesh->SetHiddenInGame(true, true);
+		HorrorCharacter->HidePhoneWidget();
 		HorrorCharacter->HidePhone = true;
 		GetWorldTimerManager().SetTimer(ChargeTimer, this, &AChargingStation::CallCharging, 2.0f, true);
 		GetWorldTimerManager().ClearTimer(HorrorCharacter->DrainTimer);
