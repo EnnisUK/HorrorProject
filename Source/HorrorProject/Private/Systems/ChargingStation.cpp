@@ -56,6 +56,10 @@ void AChargingStation::InteractPure()
 		HorrorCharacter->PhoneMesh->SetHiddenInGame(false);
 		HorrorCharacter->PhoneMesh->SetRelativeLocation(HorrorCharacter->OffLocation);
 		HorrorCharacter->HidePhone = false;
+		if (HorrorCharacter->CurrentBattery > 0)
+		{
+			HorrorCharacter->PhoneMesh->SetMaterial(2, HorrorCharacter->PhoneOn);
+		}
 		break;
 	case NotCharging:
 		PhoneMesh->SetHiddenInGame(false);

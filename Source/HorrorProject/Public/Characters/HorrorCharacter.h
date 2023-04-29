@@ -13,6 +13,7 @@
 class UCameraComponent;
 class USpotLightComponent;
 class USoundBase;
+class USpringArmComponent;
 
 UENUM(BlueprintType)
 enum EFlashLightState
@@ -51,6 +52,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* PlayerCamera;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		USpringArmComponent* SpringArm;
+
 	APlayerController* PlayerController;
 
 
@@ -78,6 +83,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float InteractDistance = 200.f;
+
 
 
 		virtual void InteractPure() override;
@@ -157,6 +163,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UMaterial* PhoneOff;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UMaterial* PhoneOn;
 
 
 	// Flashlight Functions

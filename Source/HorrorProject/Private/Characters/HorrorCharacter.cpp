@@ -12,6 +12,7 @@
 #include "Components/SpotLightComponent.h"
 #include "Engine/World.h"
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/SpringArmComponent.h"
 
 
 
@@ -29,6 +30,12 @@ AHorrorCharacter::AHorrorCharacter()
 	PlayerCamera->SetupAttachment(GetCapsuleComponent());
 	PlayerCamera->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
 	PlayerCamera->bUsePawnControlRotation = true;
+
+	//SpringArm Setup
+
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
+	SpringArm->SetupAttachment(PlayerCamera);
+	SpringArm->bEnableCameraRotationLag = true;
 	
 	//Phone Setup
 
@@ -38,8 +45,9 @@ AHorrorCharacter::AHorrorCharacter()
 	// SpotLight Setup
 
 	CameraSpotLight = CreateDefaultSubobject<USpotLightComponent>("PhoneLight");
-	CameraSpotLight->SetupAttachment(PhoneMesh);
-	
+	CameraSpotLight->SetupAttachment(SpringArm);
+
+
 
 }
 
@@ -236,6 +244,7 @@ void AHorrorCharacter::DrainBattery()
 		{
 			PhoneMesh->SetMaterial(2, PhoneOff);
 			CameraSpotLight->SetHiddenInGame(true);
+			PhoneWidget->RemoveFromParent();
 		}
 	}
 
