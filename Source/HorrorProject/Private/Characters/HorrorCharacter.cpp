@@ -13,6 +13,8 @@
 #include "Engine/World.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Engine/EngineTypes.h"
+
 
 
 
@@ -68,12 +70,15 @@ void AHorrorCharacter::BeginPlay()
 
 
 	
+
+	
 }
 
 // Called every frame
 void AHorrorCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 
 }
@@ -149,6 +154,21 @@ void AHorrorCharacter::ShowPhoneWidget()
 {
 	PhoneWidget->AddToViewport();
 }
+
+void AHorrorCharacter::HidePhoneFunction()
+{
+	if (HidePhone)
+	{
+		PhoneMesh->SetHiddenInGame(true, true);
+		CameraSpotLight->SetHiddenInGame(true);
+	}
+	else
+	{
+		PhoneMesh->SetHiddenInGame(false, true);
+	}
+}
+
+
 
 void AHorrorCharacter::DrainSanity(float SanityDrainAmount)
 {

@@ -5,6 +5,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ADoorBase::ADoorBase()
@@ -32,6 +34,7 @@ void ADoorBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 // Called every frame
@@ -44,12 +47,43 @@ void ADoorBase::Tick(float DeltaTime)
 
 void ADoorBase::InteractPure()
 {
-	GetWorldTimerManager().SetTimer(InteractDoor, this, &ADoorBase::OpenDoor, 0.01, true);
-	
-	if (!DoorisOpen)
+	switch (DoorState)
 	{
-		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+	case EUnlocked:
+
+		GetWorldTimerManager().SetTimer(InteractDoor, this, &ADoorBase::OpenDoor, 0.01, true);
+
+		if (!DoorisOpen)
+		{
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+		}
+		break;
+	case EKeyLocked:
+
+		if (Player->KeyListEnum.Contains(KeyNeeded))
+		{
+			GetWorldTimerManager().SetTimer(InteractDoor, this, &ADoorBase::OpenDoor, 0.01, true);
+			if (!DoorisOpen)
+			{
+				UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+			}
+
+		}
+		else
+		{
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorLockedSFX, GetActorLocation());
+
+		}
+
+		break;
+	case EPuzzle:
+		break;
+	default:
+		break;
 	}
+
+
+	
 	
 }
 

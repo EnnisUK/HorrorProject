@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Systems/Interfaces/InteractInterface.h"
 #include "Animation/WidgetAnimation.h"
+#include "Enums/KeyList_E.h"
 #include "HorrorCharacter.generated.h"
 
 
@@ -53,7 +54,7 @@ public:
 		UCameraComponent* PlayerCamera;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		USpringArmComponent* SpringArm;
 
 	APlayerController* PlayerController;
@@ -73,6 +74,9 @@ public:
 
 	void ShowPhoneWidget();
 
+	void HidePhoneFunction();
+
+
 	UFUNCTION(BlueprintCallable)
 	void DrainSanity(float SanityDrainAmount);
 
@@ -85,7 +89,18 @@ public:
 	float InteractDistance = 200.f;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float DetectionDistance = 200.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
+		TArray<KeyList> KeyListEnum;
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector StartLocation;
+	
+		// Interaction Void
 		virtual void InteractPure() override;
 
 		UPROPERTY(BlueprintReadOnly)
@@ -118,6 +133,9 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
 			float MaxSanity = 100.f;
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			bool SeenEnemy;
+
 		bool hasShownMessage = false;
 
 
@@ -127,6 +145,8 @@ public:
 		FTimerHandle MessageTimer;
 
 		FTimerHandle DrainSanityTimer;
+
+		FTimerHandle DetectionCall;
 			
 
 	UFUNCTION(BlueprintCallable)

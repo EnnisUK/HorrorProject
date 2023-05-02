@@ -4,12 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Enums/KeyList_E.h"
 #include "Systems/Interfaces/InteractInterface.h"
+#include "Characters/HorrorCharacter.h"
 #include "DoorBase.generated.h"
 
 class UArrowComponent;
 class UStaticMeshComponent;
 class USoundBase;
+
+UENUM(BlueprintType)
+enum EDoorLock
+{
+	EUnlocked UMETA(DisplayName"Unlocked"),
+	EKeyLocked UMETA(DisplayName"KeyLocked"),
+	EPuzzle UMETA(DisplayName"Puzzle")
+
+
+};
 
 UCLASS()
 class HORRORPROJECT_API ADoorBase : public AActor, public IInteractInterface
@@ -30,6 +42,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		USoundBase* DoorOpenSFX;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USoundBase* DoorLockedSFX;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USceneComponent* DefaultSceneRoot;
 
@@ -47,6 +63,8 @@ public:
 
 	float DeltaSecond;
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,4 +80,12 @@ public:
 	void OpenDoor();
 
 	FTimerHandle InteractDoor;
+
+	UPROPERTY (EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
+		TEnumAsByte<EDoorLock> DoorState;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
+		KeyList KeyNeeded;
+
+	AHorrorCharacter* Player;
 };

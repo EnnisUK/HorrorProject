@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "StretchedFace.generated.h"
-
-class AHorrorCharacter;
+#include "HorrorCharacter.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "Crawler.generated.h"
 
 UCLASS()
-class HORRORPROJECT_API AStretchedFace : public ACharacter
+class HORRORPROJECT_API ACrawler : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AStretchedFace();
+	ACrawler();
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,11 +28,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void LineTrace();
 
-	UPROPERTY(EditAnywhere)
-		float SightDistance;
-
+	void AttackPlayer();
 
 	AHorrorCharacter* Player;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float AttackDistance;
+
+	bool IsAttacking;
+
 };
