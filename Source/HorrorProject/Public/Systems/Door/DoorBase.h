@@ -61,7 +61,7 @@ public:
 		FRotator TargetRotation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
-	FString Pin;
+	int32 Pin;
 
 	bool DoorisOpen;
 
