@@ -12,13 +12,14 @@
 class UArrowComponent;
 class UStaticMeshComponent;
 class USoundBase;
+class APlayerController;
 
 UENUM(BlueprintType)
 enum EDoorLock
 {
 	EUnlocked UMETA(DisplayName"Unlocked"),
 	EKeyLocked UMETA(DisplayName"KeyLocked"),
-	EPuzzle UMETA(DisplayName"Puzzle")
+	ECode UMETA(DisplayName"Puzzle")
 
 
 };
@@ -59,9 +60,24 @@ public:
 	UPROPERTY(EditAnywhere)
 		FRotator TargetRotation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
+	FString Pin;
+
 	bool DoorisOpen;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool PinDoorUnlocked;
+
 	float DeltaSecond;
+
+	bool WidgetIsOpen;
+
+	APlayerController* PlayerController;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UUserWidget* PinWidget;
+
 
 
 
@@ -78,6 +94,8 @@ public:
 	virtual void InteractPure() override;
 
 	void OpenDoor();
+
+
 
 	FTimerHandle InteractDoor;
 

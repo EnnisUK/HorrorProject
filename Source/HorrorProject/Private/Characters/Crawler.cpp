@@ -21,6 +21,8 @@ void ACrawler::BeginPlay()
 	Super::BeginPlay();
 
 	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	GetWorldTimerManager().SetTimer(DespawnTimer, this, &ACrawler::Despawn, 4);
 	
 
 }
@@ -63,6 +65,11 @@ void ACrawler::ResetAttack()
 {
 	IsAttacking = false;
 	HitWidget->RemoveFromParent();
+	Destroy();
+}
+
+void ACrawler::Despawn()
+{
 	Destroy();
 }
 

@@ -38,6 +38,8 @@ public:
 
 	void ResetAttack();
 
+	void Despawn();
+
 	AHorrorCharacter* Player;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -58,5 +60,7 @@ public:
 		UUserWidget* HitWidget;
 
 	FTimerHandle AttackTimer;
+
+	FTimerHandle DespawnTimer;
 
 };

@@ -6,6 +6,13 @@
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetStringLibrary.h"
+#include "GameFramework/PlayerController.h"
+#include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+
+
+
 
 
 // Sets default values
@@ -35,6 +42,8 @@ void ADoorBase::BeginPlay()
 	Super::BeginPlay();
 	
 	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 }
 
 // Called every frame
@@ -76,7 +85,39 @@ void ADoorBase::InteractPure()
 		}
 
 		break;
-	case EPuzzle:
+	case ECode:
+		
+		if (PinDoorUnlocked)
+		{
+				GetWorldTimerManager().SetTimer(InteractDoor, this, &ADoorBase::OpenDoor, 0.01, true);
+				
+				if (!DoorisOpen)
+				{
+					UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+				}
+		}
+
+
+		if (!PinDoorUnlocked)
+		{
+			if (!WidgetIsOpen)
+			{
+				WidgetIsOpen = true;
+				PinWidget->AddToViewport();
+				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, PinWidget, EMouseLockMode::DoNotLock, false);
+				PlayerController->SetShowMouseCursor(true);
+			}
+			else
+			{
+				PinWidget->RemoveFromParent();
+				WidgetIsOpen = false;
+				UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+				PlayerController->SetShowMouseCursor(false);
+
+			}
+		}
+
+		
 		break;
 	default:
 		break;
@@ -97,4 +138,8 @@ void ADoorBase::OpenDoor()
 	}
 	
 }
+
+
+
+
 
