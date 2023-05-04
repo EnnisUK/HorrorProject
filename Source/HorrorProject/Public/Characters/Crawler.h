@@ -6,7 +6,12 @@
 #include "GameFramework/Character.h"
 #include "HorrorCharacter.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "Animation/WidgetAnimation.h"
 #include "Crawler.generated.h"
+
+class UAnimMontage;
+class USoundBase;
+class UUserWidget;
 
 UCLASS()
 class HORRORPROJECT_API ACrawler : public ACharacter
@@ -31,11 +36,27 @@ public:
 
 	void AttackPlayer();
 
+	void ResetAttack();
+
 	AHorrorCharacter* Player;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float AttackDistance;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		UWidgetAnimation* PulseIn;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		USoundBase* Growl;
+
 	bool IsAttacking;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* AttackMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UUserWidget* HitWidget;
+
+	FTimerHandle AttackTimer;
 
 };

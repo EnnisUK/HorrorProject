@@ -3,6 +3,8 @@
 
 #include "Characters/Crawler.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
+
 
 
 // Sets default values
@@ -19,6 +21,7 @@ void ACrawler::BeginPlay()
 	Super::BeginPlay();
 
 	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
 
 }
 
@@ -41,7 +44,25 @@ void ACrawler::AttackPlayer()
 {
 	if (GetDistanceTo(Player) < AttackDistance && !IsAttacking)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Attack"));
+		if (AttackMontage && !IsAttacking)
+		{
+			IsAttacking = true;
+			PlayAnimMontage(AttackMontage);
+			HitWidget->AddToViewport();
+			HitWidget->PlayAnimation(PulseIn, 0, 1, EUMGSequencePlayMode::Forward);
+		
+
+			Player->DrainSanity(10);
+
+			GetWorldTimerManager().SetTimer(AttackTimer, this, &ACrawler::ResetAttack, 1.0f, false);
+		}
 	}
+}
+
+void ACrawler::ResetAttack()
+{
+	IsAttacking = false;
+	HitWidget->RemoveFromParent();
+	Destroy();
 }
 
