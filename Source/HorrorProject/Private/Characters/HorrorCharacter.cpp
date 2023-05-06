@@ -167,6 +167,7 @@ void AHorrorCharacter::HoverTrace()
 	else
 	{
 		HoverWidget->RemoveFromParent();
+		HoverName = nullptr;
 
 		HoverWidgetOnScreen = false;
 	}

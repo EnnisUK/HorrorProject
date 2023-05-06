@@ -51,7 +51,9 @@ void AKeyPickup::InteractPure()
 	if (Player)
 	{
 		Player->KeyListEnum.AddUnique(KeyID);
+		Player->HoverName = nullptr;
 		Destroy();
+
 	}
 }
 

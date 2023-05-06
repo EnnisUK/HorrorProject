@@ -65,6 +65,7 @@ void ADoorBase::InteractPure()
 		if (!DoorisOpen)
 		{
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+			Player->HoverName = nullptr;
 		}
 		break;
 	case EKeyLocked:
@@ -75,6 +76,7 @@ void ADoorBase::InteractPure()
 			if (!DoorisOpen)
 			{
 				UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
+				Player->HoverName = nullptr;
 			}
 
 		}
@@ -106,6 +108,7 @@ void ADoorBase::InteractPure()
 				PinWidget->AddToViewport();
 				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, PinWidget, EMouseLockMode::DoNotLock, false);
 				PlayerController->SetShowMouseCursor(true);
+				Player->HoverWidget->RemoveFromParent();
 			}
 			else
 			{
@@ -113,6 +116,7 @@ void ADoorBase::InteractPure()
 				WidgetIsOpen = false;
 				UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
 				PlayerController->SetShowMouseCursor(false);
+				Player->HoverWidgetOnScreen = false;
 
 			}
 		}
@@ -130,6 +134,59 @@ void ADoorBase::InteractPure()
 
 void ADoorBase::SetDisplayName()
 {
+	switch (DoorState)
+	{
+	case EUnlocked:
+
+		if (!DoorisOpen)
+		{
+			Player->HoverName = "E To Open";
+		}
+
+		
+
+		break;
+
+	case EKeyLocked:
+
+		if (Player->KeyListEnum.Contains(KeyNeeded) && !DoorisOpen)
+		{
+			Player->HoverName = "E To Use Key";
+
+		}
+		else
+		{
+			if (!DoorisOpen)
+			{
+				Player->HoverName = KeyNeededName + "Key Needed";
+			}
+			
+
+		}
+
+		break;
+
+
+	case ECode:
+		if (!DoorisOpen)
+		{
+
+			if (!PinDoorUnlocked)
+			{
+				Player->HoverName = KeyNeededName + "E To Enter Pin";
+			}
+			else
+			{
+				Player->HoverName = KeyNeededName + "E To Open";
+
+			}
+			
+		}
+
+		break;
+	default:
+		break;
+	}
 }
 
 void ADoorBase::OpenDoor()

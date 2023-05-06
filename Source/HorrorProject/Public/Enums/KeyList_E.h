@@ -12,6 +12,7 @@ enum class KeyList : uint8
 	E_Factory UMETA(DisplayName = "Factory"),
 	E_WorkShop UMETA(DisplayName = "WorkShop"),
 	E_Lab UMETA(DisplayName = "Lab"),
+	E_None UMETA(DisplayName = "None"),
 
 
 };
