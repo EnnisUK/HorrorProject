@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "HorrorProjectGameMode.h"
-#include "HorrorProjectCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AHorrorProjectGameMode::AHorrorProjectGameMode()
