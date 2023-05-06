@@ -68,6 +68,8 @@ public:
 
 	void InteractInput();
 
+	void HoverTrace();
+
 	void ClearMessage();
 
 	void HidePhoneWidget();
@@ -103,6 +105,8 @@ public:
 		// Interaction Void
 		virtual void InteractPure() override;
 
+		virtual void SetDisplayName() override;
+
 		UPROPERTY(BlueprintReadOnly)
 		bool IsInSanityRoom;
 
@@ -113,6 +117,10 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			UUserWidget* PhoneWidget;
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			UUserWidget* HoverWidget;
+
+		bool HoverWidgetOnScreen;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
 			USoundBase* PhoneOpenSFX;
@@ -135,6 +143,9 @@ public:
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			bool SeenEnemy;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			FString HoverName;
 
 		bool hasShownMessage = false;
 

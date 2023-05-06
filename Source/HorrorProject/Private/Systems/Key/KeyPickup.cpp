@@ -55,3 +55,24 @@ void AKeyPickup::InteractPure()
 	}
 }
 
+void AKeyPickup::SetDisplayName()
+{
+	switch (KeyID)
+	{
+	case KeyList::E_Factory:
+
+		Player->HoverName = "Factory Key";
+		break;
+	case KeyList::E_WorkShop:
+
+		Player->HoverName = "Workshop Key";
+		break;
+	case KeyList::E_Lab:
+
+		Player->HoverName = "Lab Key";
+		break;
+	default:
+		break;
+	}
+}
+

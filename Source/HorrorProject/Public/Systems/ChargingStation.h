@@ -53,7 +53,9 @@ public:
 	EChargingState ChargingState;
 
 
-	virtual void InteractPure() override; // C++ Function
+	virtual void InteractPure() override;
+	
+	virtual void SetDisplayName() override; // C++ Function
 
 	void CallCharging();
 

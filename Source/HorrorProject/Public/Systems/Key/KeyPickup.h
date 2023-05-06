@@ -31,6 +31,8 @@ public:
 
 	virtual void InteractPure() override;
 
+	virtual void SetDisplayName() override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
 		KeyList KeyID;
 

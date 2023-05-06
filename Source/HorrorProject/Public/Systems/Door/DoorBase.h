@@ -93,6 +93,8 @@ public:
 
 	virtual void InteractPure() override;
 
+	virtual void SetDisplayName() override;
+
 	void OpenDoor();
 
 

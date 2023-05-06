@@ -80,7 +80,7 @@ void AHorrorCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-
+	HoverTrace();
 }
 
 // Called to bind functionality to input
@@ -135,6 +135,41 @@ void AHorrorCharacter::InteractInput()
 		}
 	}
 	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, true);
+}
+
+void AHorrorCharacter::HoverTrace()
+{
+	FVector Loc;
+	FRotator Rot;
+	FHitResult Hit;
+	GetController()->GetPlayerViewPoint(Loc, Rot);
+	FVector Start = Loc;
+	FVector End = Start + (Rot.Vector() * InteractDistance);
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	bool DidHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Camera, Params);
+
+	if (DidHit)
+	{
+		if (Hit.GetActor()->ActorHasTag("display") && !HoverWidgetOnScreen)
+		{
+
+			Cast<IInteractInterface>(Hit.GetActor())->SetDisplayName();
+
+			HoverWidget->AddToViewport();
+
+			HoverWidgetOnScreen = true;
+
+		}
+		
+	}
+	else
+	{
+		HoverWidget->RemoveFromParent();
+
+		HoverWidgetOnScreen = false;
+	}
 }
 
 void AHorrorCharacter::ClearMessage()
@@ -198,6 +233,10 @@ FString AHorrorCharacter::Message(FString TextMessage)
 
 
 void AHorrorCharacter::InteractPure()
+{
+}
+
+void AHorrorCharacter::SetDisplayName()
 {
 }
 

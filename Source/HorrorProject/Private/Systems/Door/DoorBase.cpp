@@ -128,6 +128,10 @@ void ADoorBase::InteractPure()
 	
 }
 
+void ADoorBase::SetDisplayName()
+{
+}
+
 void ADoorBase::OpenDoor()
 {
 	DoorisOpen = true;

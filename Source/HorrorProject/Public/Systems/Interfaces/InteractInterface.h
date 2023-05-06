@@ -25,4 +25,7 @@ public:
 
 	UFUNCTION()
 	virtual void InteractPure() = 0;
+
+	UFUNCTION()
+	virtual void SetDisplayName() = 0;
 };

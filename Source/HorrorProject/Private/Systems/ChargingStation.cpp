@@ -87,6 +87,10 @@ void AChargingStation::InteractPure()
 	
 }
 
+void AChargingStation::SetDisplayName()
+{
+}
+
 void AChargingStation::CallCharging()
 {
 	HorrorCharacter->ChargeBattery();
