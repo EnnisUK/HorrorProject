@@ -8,6 +8,7 @@
 #include "Animation/WidgetAnimation.h"
 #include "Enums/KeyList_E.h"
 #include "Components/Image.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "HorrorCharacter.generated.h"
 
 
@@ -80,6 +81,12 @@ public:
 	void HidePhoneFunction();
 
 	void PickupHud();
+
+	void DisableMovement();
+
+	void EnableMovement();
+
+	void PlayFootSteps();
 
 	UFUNCTION(BlueprintCallable)
 	void DrainSanity(float SanityDrainAmount);
@@ -180,6 +187,13 @@ public:
 		FTimerHandle DrainSanityTimer;
 
 		FTimerHandle DetectionCall;
+
+		FTimerHandle FootStepTimer;
+
+		UPROPERTY(EditAnywhere, Category = "SFX")
+			USoundBase* FootStepSound;
+
+		bool StepSoundIsPlaying;
 			
 
 	UFUNCTION(BlueprintCallable)

@@ -16,5 +16,5 @@ class HORRORPROJECT_API AHorrorGM : public AGameModeBase
 
 public:
 	AHorrorGM();
-	
+
 };

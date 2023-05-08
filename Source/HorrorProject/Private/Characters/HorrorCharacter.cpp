@@ -13,6 +13,7 @@
 #include "Engine/World.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetStringLibrary.h"
 #include "Engine/EngineTypes.h"
 
 
@@ -60,13 +61,14 @@ void AHorrorCharacter::BeginPlay()
 
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
-	PlayerController->Possess(this);
 
 	FlashLightState = EFlashLightState::FlashLightOff;
 	PhoneMesh->SetRelativeLocation(OffLocation);
 	CameraSpotLight->SetHiddenInGame(true);
 
 	CurrentBattery = MaxBattery;
+
+	
 
 	if (PickupWidget)
 	{
@@ -114,12 +116,15 @@ void AHorrorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AHorrorCharacter::MoveForward(float Val)
 {
+
 	AddMovementInput(GetActorForwardVector() * Val);
 }
+	
 
 void AHorrorCharacter::MoveRight(float Val)
 {
 	AddMovementInput(GetActorRightVector() * Val);
+
 }
 
 void AHorrorCharacter::InteractInput()
@@ -174,6 +179,7 @@ void AHorrorCharacter::HoverTrace()
 	}
 }
 
+
 void AHorrorCharacter::ClearMessage()
 {
 	HasMessage = false;
@@ -210,6 +216,23 @@ void AHorrorCharacter::PickupHud()
 
 	PickupWidget->PlayAnimation(FadeInDisplay);
 
+
+}
+
+void AHorrorCharacter::DisableMovement()
+{
+	GetCharacterMovement()->DisableMovement();
+}
+
+void AHorrorCharacter::EnableMovement()
+{
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+}
+
+void AHorrorCharacter::PlayFootSteps()
+{
+	FVector SoundLocation = GetActorLocation() - FVector(0, 0, 44);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), FootStepSound, SoundLocation);
 
 }
 

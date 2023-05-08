@@ -113,6 +113,7 @@ void ADoorBase::InteractPure()
 				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, PinWidget, EMouseLockMode::DoNotLock, false);
 				PlayerController->SetShowMouseCursor(true);
 				Player->Crosshair->SetVisibility(ESlateVisibility::Hidden);
+				Player->DisableMovement();
 			}
 			else
 			{
@@ -121,6 +122,8 @@ void ADoorBase::InteractPure()
 				UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
 				PlayerController->SetShowMouseCursor(false);
 				Player->Crosshair->SetVisibility(ESlateVisibility::Visible);
+				Player->EnableMovement();
+
 				
 
 			}

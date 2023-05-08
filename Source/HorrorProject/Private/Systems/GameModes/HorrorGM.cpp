@@ -8,6 +8,6 @@
 AHorrorGM::AHorrorGM()
 	: Super()
 {
-
-
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/HorrorGame/Characters/Player/BP_HorrorCharacter"));
+	DefaultPawnClass = PlayerPawnClassFinder.Class;
 }
