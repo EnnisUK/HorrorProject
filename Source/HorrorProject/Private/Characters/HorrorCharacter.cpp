@@ -68,6 +68,11 @@ void AHorrorCharacter::BeginPlay()
 
 	CurrentBattery = MaxBattery;
 
+	if (PickupWidget)
+	{
+		PickupWidget->AddToViewport();
+	}
+
 
 	
 
@@ -157,9 +162,17 @@ void AHorrorCharacter::HoverTrace()
 
 			Cast<IInteractInterface>(Hit.GetActor())->SetDisplayName();
 
-			HoverWidget->AddToViewport();
+			if (HoverWidget->IsInViewport())
+			{
+				return;
+			}
+			else
+			{
+				HoverWidget->AddToViewport();
 
-			HoverWidgetOnScreen = true;
+				HoverWidgetOnScreen = true;
+			}
+			
 
 		}
 		
@@ -202,6 +215,14 @@ void AHorrorCharacter::HidePhoneFunction()
 	{
 		PhoneMesh->SetHiddenInGame(false, true);
 	}
+}
+
+void AHorrorCharacter::PickupHud()
+{
+
+	PickupWidget->PlayAnimation(FadeInDisplay);
+
+
 }
 
 

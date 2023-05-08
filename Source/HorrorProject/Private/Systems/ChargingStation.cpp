@@ -3,6 +3,9 @@
 
 #include "Systems/ChargingStation.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
+
+
 
 // Sets default values
 AChargingStation::AChargingStation()
@@ -27,10 +30,6 @@ void AChargingStation::BeginPlay()
 	
 	HorrorCharacter = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-	if (HorrorCharacter != NULL)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Cast Successfull"));
-	}
 
 	ChargingState = EChargingState::NotCharging;
 }
@@ -51,6 +50,7 @@ void AChargingStation::InteractPure()
 	case Charging:
 		GetWorldTimerManager().ClearTimer(ChargeTimer);
 		PhoneMesh->SetHiddenInGame(true);
+		HorrorCharacter->HoverWidgetOnScreen = false;
 		HorrorCharacter->b_StartCharge = false;
 		ChargingState = EChargingState::NotCharging;
 		HorrorCharacter->PhoneMesh->SetHiddenInGame(false);
@@ -66,6 +66,7 @@ void AChargingStation::InteractPure()
 		PhoneMesh->SetHiddenInGame(false);
 		HorrorCharacter->b_StartCharge = true;
 		ChargingState = EChargingState::Charging;
+		HorrorCharacter->HoverWidgetOnScreen = false;
 		HorrorCharacter->FlashLightState = EFlashLightState::FlashLightOff;
 		HorrorCharacter->HidePhoneWidget();
 		HorrorCharacter->HidePhone = true;
@@ -89,6 +90,22 @@ void AChargingStation::InteractPure()
 
 void AChargingStation::SetDisplayName()
 {
+
+	switch (ChargingState)
+	{
+	case Charging:
+
+		HorrorCharacter->HoverName = "E To Pickup";
+		
+		break;
+	case NotCharging:
+
+		HorrorCharacter->HoverName = "E To Charge Phone";
+		
+		break;
+	default:
+		break;
+	}
 }
 
 void AChargingStation::CallCharging()

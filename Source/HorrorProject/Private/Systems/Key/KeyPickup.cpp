@@ -2,6 +2,7 @@
 
 #include "Systems/Key/KeyPickup.h"
 #include "Kismet/GameplayStatics.h"
+#include "Animation/WidgetAnimation.h"
 
 // Sets default values
 AKeyPickup::AKeyPickup()
@@ -52,6 +53,26 @@ void AKeyPickup::InteractPure()
 	{
 		Player->KeyListEnum.AddUnique(KeyID);
 		Player->HoverName = nullptr;
+		switch (KeyID) 
+		
+		{
+		case KeyList::E_Factory:
+
+			Player->CollectedDisplayName = "Factory Key";
+			break;
+		case KeyList::E_WorkShop:
+
+			Player->CollectedDisplayName = "Workshop Key";
+			break;
+		case KeyList::E_Lab:
+
+			Player->CollectedDisplayName = "Lab Key";
+			break;
+		default:
+			break;
+		}
+		Player->PickupHud();
+
 		Destroy();
 
 	}

@@ -50,4 +50,5 @@ public:
 
 	AHorrorCharacter* Player;
 
+
 };

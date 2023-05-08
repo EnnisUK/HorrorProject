@@ -78,6 +78,7 @@ public:
 
 	void HidePhoneFunction();
 
+	void PickupHud();
 
 	UFUNCTION(BlueprintCallable)
 	void DrainSanity(float SanityDrainAmount);
@@ -120,6 +121,17 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			UUserWidget* HoverWidget;
 
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			UUserWidget* PickupWidget;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			FString CollectedDisplayName;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			UWidgetAnimation* FadeInDisplay;
+
+		UPROPERTY(BlueprintReadWrite)
 		bool HoverWidgetOnScreen;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
