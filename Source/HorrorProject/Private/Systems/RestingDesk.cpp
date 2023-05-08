@@ -5,6 +5,8 @@
 #include "Camera/CameraComponent.h"
 
 
+
+
 // Sets default values
 ARestingDesk::ARestingDesk()
 {
@@ -28,6 +30,8 @@ void ARestingDesk::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 // Called every frame
@@ -39,6 +43,20 @@ void ARestingDesk::Tick(float DeltaTime)
 
 void ARestingDesk::InteractPure()
 {
+	if (PlayerController)
+	{
+		if (!b_IsResting)
+		{
+			PlayerController->SetViewTargetWithBlend(this, 1.0f, EViewTargetBlendFunction::VTBlend_Cubic, 1.0f);
+			b_IsResting = true;
+		}
+		else
+		{
+			PlayerController->SetViewTargetWithBlend(Player, 1.0f, EViewTargetBlendFunction::VTBlend_Cubic, 1.0f);
+			b_IsResting = false;
+		}
+		
+	}
 }
 
 void ARestingDesk::SetDisplayName()

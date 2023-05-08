@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/InteractInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Characters/HorrorCharacter.h"
 #include "RestingDesk.generated.h"
 
 class UStaticMeshComponent;
@@ -48,6 +50,10 @@ public:
 	// Actor Variables
 
 	bool b_IsResting;
+
+	APlayerController* PlayerController;
+
+	AHorrorCharacter* Player;
 
 
 };
