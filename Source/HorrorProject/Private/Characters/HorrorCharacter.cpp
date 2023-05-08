@@ -72,6 +72,10 @@ void AHorrorCharacter::BeginPlay()
 	{
 		PickupWidget->AddToViewport();
 	}
+	if (HoverWidget)
+	{
+		HoverWidget->AddToViewport();
+	}
 
 
 	
@@ -157,32 +161,16 @@ void AHorrorCharacter::HoverTrace()
 
 	if (DidHit)
 	{
-		if (Hit.GetActor()->ActorHasTag("display") && !HoverWidgetOnScreen)
+		if (Hit.GetActor()->ActorHasTag("display"))
 		{
-
-			Cast<IInteractInterface>(Hit.GetActor())->SetDisplayName();
-
-			if (HoverWidget->IsInViewport())
-			{
-				return;
-			}
-			else
-			{
-				HoverWidget->AddToViewport();
-
-				HoverWidgetOnScreen = true;
-			}
-			
+			Crosshair->SetBrushFromTexture(InteractCrosshair);
 
 		}
 		
 	}
 	else
 	{
-		HoverWidget->RemoveFromParent();
-		HoverName = nullptr;
-
-		HoverWidgetOnScreen = false;
+		Crosshair->SetBrushFromTexture(DefaultCrosshair);
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "Systems/Interfaces/InteractInterface.h"
 #include "Animation/WidgetAnimation.h"
 #include "Enums/KeyList_E.h"
+#include "Components/Image.h"
 #include "HorrorCharacter.generated.h"
 
 
@@ -97,6 +98,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
 		TArray<KeyList> KeyListEnum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture2D* DefaultCrosshair;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture2D* InteractCrosshair;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UImage* Crosshair;
 
 
 

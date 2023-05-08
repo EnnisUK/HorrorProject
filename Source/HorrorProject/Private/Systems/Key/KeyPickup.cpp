@@ -58,15 +58,15 @@ void AKeyPickup::InteractPure()
 		{
 		case KeyList::E_Factory:
 
-			Player->CollectedDisplayName = "Factory Key";
+			Player->CollectedDisplayName = "Factory Key Collected";
 			break;
 		case KeyList::E_WorkShop:
 
-			Player->CollectedDisplayName = "Workshop Key";
+			Player->CollectedDisplayName = "Workshop Key Collected";
 			break;
 		case KeyList::E_Lab:
 
-			Player->CollectedDisplayName = "Lab Key";
+			Player->CollectedDisplayName = "Lab Key Collected";
 			break;
 		default:
 			break;

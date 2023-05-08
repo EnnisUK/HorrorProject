@@ -75,6 +75,8 @@ void ADoorBase::InteractPure()
 			GetWorldTimerManager().SetTimer(InteractDoor, this, &ADoorBase::OpenDoor, 0.01, true);
 			if (!DoorisOpen)
 			{
+				Player->CollectedDisplayName = "Used " + KeyNeededName;
+				Player->PickupHud();
 				UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorOpenSFX, GetActorLocation());
 				Player->HoverName = nullptr;
 			}
@@ -84,6 +86,8 @@ void ADoorBase::InteractPure()
 		{
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DoorLockedSFX, GetActorLocation());
 
+			Player->CollectedDisplayName = "Needs " + KeyNeededName;
+			Player->PickupHud();
 		}
 
 		break;
@@ -108,7 +112,7 @@ void ADoorBase::InteractPure()
 				PinWidget->AddToViewport();
 				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, PinWidget, EMouseLockMode::DoNotLock, false);
 				PlayerController->SetShowMouseCursor(true);
-				Player->HoverWidget->RemoveFromParent();
+				Player->Crosshair->SetVisibility(ESlateVisibility::Hidden);
 			}
 			else
 			{
@@ -116,7 +120,8 @@ void ADoorBase::InteractPure()
 				WidgetIsOpen = false;
 				UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
 				PlayerController->SetShowMouseCursor(false);
-				Player->HoverWidgetOnScreen = false;
+				Player->Crosshair->SetVisibility(ESlateVisibility::Visible);
+				
 
 			}
 		}
@@ -134,59 +139,6 @@ void ADoorBase::InteractPure()
 
 void ADoorBase::SetDisplayName()
 {
-	switch (DoorState)
-	{
-	case EUnlocked:
-
-		if (!DoorisOpen)
-		{
-			Player->HoverName = "E To Open";
-		}
-
-		
-
-		break;
-
-	case EKeyLocked:
-
-		if (Player->KeyListEnum.Contains(KeyNeeded) && !DoorisOpen)
-		{
-			Player->HoverName = "E To Use Key";
-
-		}
-		else
-		{
-			if (!DoorisOpen)
-			{
-				Player->HoverName = KeyNeededName + "Key Needed";
-			}
-			
-
-		}
-
-		break;
-
-
-	case ECode:
-		if (!DoorisOpen)
-		{
-
-			if (!PinDoorUnlocked)
-			{
-				Player->HoverName = KeyNeededName + "E To Enter Pin";
-			}
-			else
-			{
-				Player->HoverName = KeyNeededName + "E To Open";
-
-			}
-			
-		}
-
-		break;
-	default:
-		break;
-	}
 }
 
 void ADoorBase::OpenDoor()
