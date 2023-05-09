@@ -45,6 +45,38 @@ void AChargingStation::Tick(float DeltaTime)
 void AChargingStation::InteractPure()
 {
 
+	
+
+	
+}
+
+void AChargingStation::SetDisplayName()
+{
+
+	switch (ChargingState)
+	{
+	case Charging:
+
+		HorrorCharacter->HoverName = "E To Pickup";
+		
+		break;
+	case NotCharging:
+
+		HorrorCharacter->HoverName = "E To Charge Phone";
+		
+		break;
+	default:
+		break;
+	}
+}
+
+void AChargingStation::CallCharging()
+{
+	HorrorCharacter->ChargeBattery();
+}
+
+void AChargingStation::ChargerClicked()
+{
 	switch (ChargingState)
 	{
 	case Charging:
@@ -83,33 +115,6 @@ void AChargingStation::InteractPure()
 		ChargingState = EChargingState::NotCharging;
 		break;
 	}
-	
 
-	
-}
-
-void AChargingStation::SetDisplayName()
-{
-
-	switch (ChargingState)
-	{
-	case Charging:
-
-		HorrorCharacter->HoverName = "E To Pickup";
-		
-		break;
-	case NotCharging:
-
-		HorrorCharacter->HoverName = "E To Charge Phone";
-		
-		break;
-	default:
-		break;
-	}
-}
-
-void AChargingStation::CallCharging()
-{
-	HorrorCharacter->ChargeBattery();
 }
 

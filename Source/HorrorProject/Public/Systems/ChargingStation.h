@@ -37,11 +37,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		UStaticMeshComponent* Mesh;
 
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		UStaticMeshComponent* PhoneMesh;
 
 	FTimerHandle ChargeTimer;
@@ -50,7 +50,9 @@ public:
 
 	// Enums
 
-	EChargingState ChargingState;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TEnumAsByte<EChargingState> ChargingState;
+
 
 
 	virtual void InteractPure() override;
@@ -58,5 +60,8 @@ public:
 	virtual void SetDisplayName() override; // C++ Function
 
 	void CallCharging();
+
+	UFUNCTION(BlueprintCallable)
+		void ChargerClicked();
 
 };

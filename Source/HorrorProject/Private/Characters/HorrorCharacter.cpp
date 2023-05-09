@@ -90,8 +90,11 @@ void AHorrorCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-	HoverTrace();
+	if (APawn::IsPawnControlled())
+	{
+		HoverTrace();
+	}
+	
 }
 
 // Called to bind functionality to input
