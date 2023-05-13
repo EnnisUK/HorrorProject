@@ -19,6 +19,10 @@ class HORRORPROJECT_API UMainSave : public USaveGame
 public:
 
 	UPROPERTY(EditAnywhere)
+		FVector PlayerSpawn;
+
+
+	UPROPERTY(EditAnywhere)
 		float CurrentBattery;
 
 	UPROPERTY(EditAnywhere)

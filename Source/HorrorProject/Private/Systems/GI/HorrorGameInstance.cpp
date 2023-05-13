@@ -21,6 +21,7 @@ void UHorrorGameInstance::SaveGame()
 {
 	if (UGameplayStatics::DoesSaveGameExist("MainSave", 0))
 	{
+		SaveGameInstance->PlayerSpawn = PlayerSpawn;
 		SaveGameInstance->CurrentBattery = Player->CurrentBattery;
 		SaveGameInstance->CurrentSanity = Player->CurrentSanity;
 		SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
@@ -57,23 +58,18 @@ void UHorrorGameInstance::LoadGame()
 		SaveGameInstance = Cast<UMainSave>(UGameplayStatics::LoadGameFromSlot("MainSave", 0));
 		if (Player)
 		{
+			PlayerSpawn = SaveGameInstance->PlayerSpawn;
+			Player->SetActorLocation(PlayerSpawn);
 			Player->CurrentBattery = SaveGameInstance->CurrentBattery;
 			Player->CurrentSanity = SaveGameInstance->CurrentSanity;
 			Player->FactoryKey = SaveGameInstance->b_HasFactoryKey;
 			Player->WorkshopKey = SaveGameInstance->b_HasWorkshopKey;
 			Player->LabKey = SaveGameInstance->b_HasLabKey;
-			MasterVolume = SaveGameInstance->MasterVolume;
-			SFXVolume = SaveGameInstance->SFXVolume;
-			MusicVolume = SaveGameInstance->MusicVolume;
-
-			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Load"));
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("NotValidLoad"));
-
 		}
 
+		MasterVolume = SaveGameInstance->MasterVolume;
+		SFXVolume = SaveGameInstance->SFXVolume;
+		MusicVolume = SaveGameInstance->MusicVolume;
 
 		isLoading = true;
 	}

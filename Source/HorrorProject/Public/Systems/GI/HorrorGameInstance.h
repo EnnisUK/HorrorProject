@@ -30,6 +30,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadGame();
 
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		FVector PlayerSpawn;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float MasterVolume;
 

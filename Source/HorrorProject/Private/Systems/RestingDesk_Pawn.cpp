@@ -4,6 +4,7 @@
 #include "Systems/RestingDesk_Pawn.h"
 #include "Camera/CameraComponent.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Systems/GI/HorrorGameInstance.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -49,6 +50,11 @@ void ARestingDesk_Pawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (b_IsResting)
+	{
+		Player->CurrentSanity += 5 * DeltaTime;
+	}
+
 }
 
 // Called to bind functionality to input
@@ -75,6 +81,9 @@ void ARestingDesk_Pawn::InteractPure()
 	{
 		if (!b_IsResting)
 		{
+			UHorrorGameInstance* GameInstance = Cast<UHorrorGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+			GameInstance->PlayerSpawn = NewActorLocation;
+			Player->HoverWidget->SetVisibility(ESlateVisibility::Hidden);
 			PlayerController->SetViewTargetWithBlend(this, 1.0f, EViewTargetBlendFunction::VTBlend_Cubic, 1.0f);
 			b_IsResting = true;
 			PlayerController->SetShowMouseCursor(true);
@@ -85,12 +94,15 @@ void ARestingDesk_Pawn::InteractPure()
 		}
 		else
 		{
+			UHorrorGameInstance* GameInstance = Cast<UHorrorGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+			Player->HoverWidget->SetVisibility(ESlateVisibility::Visible);
 			PlayerController->SetViewTargetWithBlend(Player, 1.0f, EViewTargetBlendFunction::VTBlend_Cubic, 1.0f);
 			b_IsResting = false;
 			PlayerController->SetShowMouseCursor(false);
 			PlayerController->bEnableMouseOverEvents = false;
 			PlayerController->bEnableClickEvents = false;
 			UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+			GameInstance->SaveGame();
 			if (ChargeStationRef)
 			{
 				if (ChargeStationRef->ChargingState == EChargingState::Charging)

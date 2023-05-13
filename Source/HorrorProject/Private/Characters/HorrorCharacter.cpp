@@ -98,6 +98,8 @@ void AHorrorCharacter::Tick(float DeltaTime)
 	{
 		HoverTrace();
 	}
+
+	
 	
 }
 
