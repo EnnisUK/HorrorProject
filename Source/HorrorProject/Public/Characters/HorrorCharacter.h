@@ -174,6 +174,15 @@ public:
 			bool SeenEnemy;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			bool FactoryKey;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			bool WorkshopKey;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			bool LabKey;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			FString HoverName;
 
 		bool hasShownMessage = false;
