@@ -2,6 +2,7 @@
 
 
 #include "Systems/GI/HorrorGameInstance.h"
+#include "Characters/HorrorCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -11,7 +12,8 @@ void UHorrorGameInstance::Init()
 {
 	UGameInstance::Init();
 
-	Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
+	
 
 }
 
@@ -32,32 +34,59 @@ void UHorrorGameInstance::SaveGame()
 
 		// Save the game instance
 		UGameplayStatics::SaveGameToSlot(SaveGameInstance, "MainSave", 0);
+
+		
 	}
 	else
 	{
-		// Create Save Game if it does not exist
-		SaveGameInstance = Cast<UMainSave> (UGameplayStatics::CreateSaveGameObject(UMainSave::StaticClass()));
+		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("NotSaved"));
 	}
+
+		
+
 }
 
 void UHorrorGameInstance::LoadGame()
 {
 	if (UGameplayStatics::DoesSaveGameExist("MainSave", 0))
 	{
-		SaveGameInstance = Cast<UMainSave>(UGameplayStatics::LoadGameFromSlot("MainSave", 0));
+		SaveGameInstance = Cast<UMainSave>(UGameplayStatics::CreateSaveGameObject(UMainSave::StaticClass()));
 
-		Player->CurrentBattery = SaveGameInstance->CurrentBattery;
-		Player->CurrentSanity = SaveGameInstance->CurrentSanity;
-		Player->FactoryKey = SaveGameInstance->b_HasFactoryKey;
-		Player->WorkshopKey = SaveGameInstance->b_HasWorkshopKey;
-		Player->LabKey = SaveGameInstance->b_HasLabKey;
-		MasterVolume = SaveGameInstance->MasterVolume;
-		SFXVolume = SaveGameInstance->SFXVolume;
-		MusicVolume = SaveGameInstance->MusicVolume;
+		Player = Cast<AHorrorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+		SaveGameInstance = Cast<UMainSave>(UGameplayStatics::LoadGameFromSlot("MainSave", 0));
+		if (Player)
+		{
+			Player->CurrentBattery = SaveGameInstance->CurrentBattery;
+			Player->CurrentSanity = SaveGameInstance->CurrentSanity;
+			Player->FactoryKey = SaveGameInstance->b_HasFactoryKey;
+			Player->WorkshopKey = SaveGameInstance->b_HasWorkshopKey;
+			Player->LabKey = SaveGameInstance->b_HasLabKey;
+			MasterVolume = SaveGameInstance->MasterVolume;
+			SFXVolume = SaveGameInstance->SFXVolume;
+			MusicVolume = SaveGameInstance->MusicVolume;
+
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Load"));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("NotValidLoad"));
+
+		}
+
 
 		isLoading = true;
-
-
 	}
+	else
+	{
+		SaveGameInstance = Cast<UMainSave>(UGameplayStatics::CreateSaveGameObject(UMainSave::StaticClass()));
+
+		UGameplayStatics::SaveGameToSlot(SaveGameInstance, "MainSave", 0);
+
+		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("CreatedSave"));
+	}
+	
+
+
 
 }

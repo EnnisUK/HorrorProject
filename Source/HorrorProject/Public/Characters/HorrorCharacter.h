@@ -9,6 +9,7 @@
 #include "Enums/KeyList_E.h"
 #include "Components/Image.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Systems/GI/HorrorGameInstance.h"
 #include "HorrorCharacter.generated.h"
 
 
@@ -61,6 +62,9 @@ public:
 
 	APlayerController* PlayerController;
 
+	//Casts
+
+	UHorrorGameInstance* GameInstance;
 
 	// Character Inputs
 

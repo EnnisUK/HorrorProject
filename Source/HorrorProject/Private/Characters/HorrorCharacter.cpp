@@ -61,6 +61,10 @@ void AHorrorCharacter::BeginPlay()
 
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
+	GameInstance = Cast<UHorrorGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	GameInstance->LoadGame();
+
 
 	FlashLightState = EFlashLightState::FlashLightOff;
 	PhoneMesh->SetRelativeLocation(OffLocation);

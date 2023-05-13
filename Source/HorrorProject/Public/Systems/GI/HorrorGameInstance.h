@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/GameInstance.h"
-#include "Characters/HorrorCharacter.h"
 #include "Systems/SaveSystem/MainSave.h"
 #include "Engine/GameInstance.h"
 #include "HorrorGameInstance.generated.h"
@@ -12,6 +10,8 @@
 /**
  * 
  */
+
+class AHorrorCharacter;
 UCLASS()
 class HORRORPROJECT_API UHorrorGameInstance : public UGameInstance
 {
@@ -42,14 +42,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<AActor*> DestroyedActors;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool isSaving;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool isLoading;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
 	UMainSave* SaveGameInstance;
 
-	AHorrorCharacter* Player;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		AHorrorCharacter* Player;
 };
