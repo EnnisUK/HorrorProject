@@ -15,6 +15,9 @@ class HORRORPROJECT_API UMainSave : public USaveGame
 {
 	GENERATED_BODY()
 	
+public:
+	UMainSave();
+
 
 public:
 

@@ -3,3 +3,7 @@
 
 #include "Systems/SaveSystem/MainSave.h"
 
+UMainSave::UMainSave()
+{
+	PlayerSpawn = (FVector(519.407611,759.849777,92.000043));
+}

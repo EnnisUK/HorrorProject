@@ -104,7 +104,7 @@ public:
 	float InteractDistance = 200.f;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool b_IsInGameLevel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
