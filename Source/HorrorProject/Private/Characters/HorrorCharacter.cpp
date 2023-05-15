@@ -81,6 +81,10 @@ void AHorrorCharacter::BeginPlay()
 	if (HoverWidget)
 	{
 		HoverWidget->AddToViewport();
+		if (!b_IsInGameLevel)
+		{
+			HoverWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
 
 

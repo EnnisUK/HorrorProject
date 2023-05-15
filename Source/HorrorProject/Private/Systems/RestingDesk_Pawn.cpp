@@ -52,7 +52,11 @@ void ARestingDesk_Pawn::Tick(float DeltaTime)
 
 	if (b_IsResting)
 	{
-		Player->CurrentSanity += 5 * DeltaTime;
+		if (Player->CurrentSanity < 100)
+		{
+			Player->CurrentSanity += 5 * DeltaTime;
+		}
+		
 	}
 
 }

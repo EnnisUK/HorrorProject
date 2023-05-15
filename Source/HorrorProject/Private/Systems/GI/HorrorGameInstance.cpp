@@ -21,12 +21,16 @@ void UHorrorGameInstance::SaveGame()
 {
 	if (UGameplayStatics::DoesSaveGameExist("MainSave", 0))
 	{
-		SaveGameInstance->PlayerSpawn = PlayerSpawn;
-		SaveGameInstance->CurrentBattery = Player->CurrentBattery;
-		SaveGameInstance->CurrentSanity = Player->CurrentSanity;
-		SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
-		SaveGameInstance->b_HasLabKey = Player->LabKey;
-		SaveGameInstance->b_HasWorkshopKey = Player->WorkshopKey;
+		if (Player)
+		{
+			SaveGameInstance->PlayerSpawn = PlayerSpawn;
+			SaveGameInstance->CurrentBattery = Player->CurrentBattery;
+			SaveGameInstance->CurrentSanity = Player->CurrentSanity;
+			SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
+			SaveGameInstance->b_HasLabKey = Player->LabKey;
+			SaveGameInstance->b_HasWorkshopKey = Player->WorkshopKey;
+		}
+		
 		SaveGameInstance->MasterVolume = MasterVolume;
 		SaveGameInstance->MusicVolume = MusicVolume;
 		SaveGameInstance->SFXVolume = SFXVolume;

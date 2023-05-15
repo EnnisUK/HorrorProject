@@ -105,6 +105,9 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool b_IsInGameLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float DetectionDistance = 200.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum", meta = (ExposeOnSpawn = "true"))
