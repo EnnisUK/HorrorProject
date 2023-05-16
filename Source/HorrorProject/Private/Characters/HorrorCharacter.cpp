@@ -14,6 +14,8 @@
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetStringLibrary.h"
+#include "Components/PointLightComponent.h"
+
 #include "Engine/EngineTypes.h"
 
 
@@ -40,7 +42,15 @@ AHorrorCharacter::AHorrorCharacter()
 	SpringArm->SetupAttachment(PlayerCamera);
 	SpringArm->bEnableCameraRotationLag = true;
 	
-	GetMesh()->SetupAttachment(PlayerCamera);
+	//Create Lighter
+
+	Lighter = CreateDefaultSubobject<UStaticMeshComponent>("Lighter");
+	Lighter->SetupAttachment(PlayerCamera);
+
+	// Create Point light
+
+	LighterLight = CreateDefaultSubobject<UPointLightComponent>("LighterLight");
+	LighterLight->SetupAttachment(Lighter);
 
 
 }

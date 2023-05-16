@@ -18,6 +18,7 @@ class UCameraComponent;
 class USpotLightComponent;
 class USoundBase;
 class USpringArmComponent;
+class UPointLightComponent;
 
 UENUM(BlueprintType)
 enum EFlashLightState
@@ -89,6 +90,12 @@ public:
 
 
 	// Character Variables
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UStaticMeshComponent* Lighter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UPointLightComponent* LighterLight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float InteractDistance = 200.f;
