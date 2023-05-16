@@ -40,16 +40,7 @@ AHorrorCharacter::AHorrorCharacter()
 	SpringArm->SetupAttachment(PlayerCamera);
 	SpringArm->bEnableCameraRotationLag = true;
 	
-	//Phone Setup
-
-	PhoneMesh = CreateDefaultSubobject<UStaticMeshComponent>("Phone");
-	PhoneMesh->SetupAttachment(PlayerCamera);
-
-	// SpotLight Setup
-
-	CameraSpotLight = CreateDefaultSubobject<USpotLightComponent>("PhoneLight");
-	CameraSpotLight->SetupAttachment(SpringArm);
-
+	GetMesh()->SetupAttachment(PlayerCamera);
 
 
 }
@@ -65,12 +56,6 @@ void AHorrorCharacter::BeginPlay()
 
 	GameInstance->LoadGame();
 
-
-	FlashLightState = EFlashLightState::FlashLightOff;
-	PhoneMesh->SetRelativeLocation(OffLocation);
-	CameraSpotLight->SetHiddenInGame(true);
-
-	CurrentBattery = MaxBattery;
 
 	
 
@@ -122,7 +107,6 @@ void AHorrorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// ActionMappings
 	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AHorrorCharacter::InteractInput);
-	PlayerInputComponent->BindAction("Flashlight", IE_Pressed, this, &AHorrorCharacter::FlashlightSwitch);
 	
 
 }
@@ -193,36 +177,12 @@ void AHorrorCharacter::HoverTrace()
 }
 
 
-void AHorrorCharacter::ClearMessage()
-{
-	HasMessage = false;
-	PhoneWidget->PlayAnimation(PulseIn, 0, 1, EUMGSequencePlayMode::Reverse);
-	hasShownMessage = false;
 
-}
 
-void AHorrorCharacter::HidePhoneWidget()
-{
-	PhoneWidget->RemoveFromParent();
-}
 
-void AHorrorCharacter::ShowPhoneWidget()
-{
-	PhoneWidget->AddToViewport();
-}
 
-void AHorrorCharacter::HidePhoneFunction()
-{
-	if (HidePhone)
-	{
-		PhoneMesh->SetHiddenInGame(true, true);
-		CameraSpotLight->SetHiddenInGame(true);
-	}
-	else
-	{
-		PhoneMesh->SetHiddenInGame(false, true);
-	}
-}
+
+
 
 void AHorrorCharacter::PickupHud()
 {
@@ -268,14 +228,6 @@ void AHorrorCharacter::DrainSanity(float SanityDrainAmount)
 }
 
 
-FString AHorrorCharacter::Message(FString TextMessage)
-{
-
-	return TextMessage;
-}
-
-
-
 
 
 void AHorrorCharacter::InteractPure()
@@ -286,79 +238,4 @@ void AHorrorCharacter::SetDisplayName()
 {
 }
 
-void AHorrorCharacter::FlashlightSwitch()
-{
-	if (b_StartCharge == false && CurrentBattery > 0.f)
-	{
-		switch (FlashLightState)
-		{
-
-
-
-		case FlashLightOn:
-			PhoneMesh->SetRelativeLocation(OffLocation);
-			CameraSpotLight->SetHiddenInGame(true);
-			GetWorldTimerManager().ClearTimer(DrainTimer);
-			FlashLightState = EFlashLightState::FlashLightOff;
-			HidePhoneWidget();
-			if (PhoneCloseSFX)
-			{
-				UGameplayStatics::PlaySound2D(GetWorld(), PhoneCloseSFX);
-
-			}
-			break;
-		case FlashLightOff:
-
-			if (HasMessage && hasShownMessage == false)
-			{
-				PhoneWidget->PlayAnimation(PulseIn);
-				hasShownMessage = true;
-				DrainSanity(10);
-				GetWorldTimerManager().SetTimer(MessageTimer, this, &AHorrorCharacter::ClearMessage, 5, false);
-			}
-			PhoneMesh->SetRelativeLocation(OnLocation);
-			CameraSpotLight->SetHiddenInGame(false);
-			FlashLightState = EFlashLightState::FlashLightOn;
-			GetWorldTimerManager().SetTimer(DrainTimer, this, &AHorrorCharacter::DrainBattery, 3.0f, true, 3.0f);
-			ShowPhoneWidget();
-			if (PhoneOpenSFX)
-			{
-				UGameplayStatics::PlaySound2D(GetWorld(), PhoneOpenSFX);
-			}
-			
-			break;
-		default:
-			break;
-
-
-		}
-	}
-}
-
-void AHorrorCharacter::DrainBattery()
-{
-
-	
-	CurrentBattery -= DrainAmount;
-	CurrentBattery = UKismetMathLibrary::FClamp(CurrentBattery, 0, MaxBattery);
-
-
-	if (CurrentBattery == 0)
-	{
-		if (PhoneOff) 
-		{
-			PhoneMesh->SetMaterial(2, PhoneOff);
-			CameraSpotLight->SetHiddenInGame(true);
-			PhoneWidget->RemoveFromParent();
-		}
-	}
-
-	
-}
-
-void AHorrorCharacter::ChargeBattery()
-{
-	CurrentBattery += ChargeAmount;
-	CurrentBattery = UKismetMathLibrary::FClamp(CurrentBattery, 0, MaxBattery);
-}
 

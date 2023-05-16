@@ -15,8 +15,6 @@ UMainSave::UMainSave()
 
 	 CurrentSanity = 100;
 
-	 CurrentBattery = 100;
-
 	 b_HasFactoryKey = false;
 
 	 b_HasLabKey = false;

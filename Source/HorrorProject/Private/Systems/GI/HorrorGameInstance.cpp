@@ -24,7 +24,6 @@ void UHorrorGameInstance::SaveGame()
 		if (Player)
 		{
 			SaveGameInstance->PlayerSpawn = PlayerSpawn;
-			SaveGameInstance->CurrentBattery = Player->CurrentBattery;
 			SaveGameInstance->CurrentSanity = Player->CurrentSanity;
 			SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
 			SaveGameInstance->b_HasLabKey = Player->LabKey;
@@ -64,7 +63,6 @@ void UHorrorGameInstance::LoadGame()
 		{
 			PlayerSpawn = SaveGameInstance->PlayerSpawn;
 			Player->SetActorLocation(PlayerSpawn);
-			Player->CurrentBattery = SaveGameInstance->CurrentBattery;
 			Player->CurrentSanity = SaveGameInstance->CurrentSanity;
 			Player->FactoryKey = SaveGameInstance->b_HasFactoryKey;
 			Player->WorkshopKey = SaveGameInstance->b_HasWorkshopKey;

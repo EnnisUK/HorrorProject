@@ -26,9 +26,6 @@ public:
 
 
 	UPROPERTY(EditAnywhere)
-		float CurrentBattery;
-
-	UPROPERTY(EditAnywhere)
 		float CurrentSanity;
 
 	UPROPERTY(EditAnywhere)

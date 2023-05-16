@@ -66,8 +66,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector NewActorLocation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AChargingStation* ChargeStationRef;
 
 	APlayerController* PlayerController;
 

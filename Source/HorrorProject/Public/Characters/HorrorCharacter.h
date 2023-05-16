@@ -50,8 +50,7 @@ public:
 
 	// Character Components
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-		UStaticMeshComponent* PhoneMesh;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* PlayerCamera;
@@ -76,13 +75,6 @@ public:
 
 	void HoverTrace();
 
-	void ClearMessage();
-
-	void HidePhoneWidget();
-
-	void ShowPhoneWidget();
-
-	void HidePhoneFunction();
 
 	void PickupHud();
 
@@ -95,8 +87,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DrainSanity(float SanityDrainAmount);
 
-	UFUNCTION(BlueprintCallable)
-	FString Message(FString TextMessage);
 
 	// Character Variables
 
@@ -136,11 +126,6 @@ public:
 		bool IsInSanityRoom;
 
 
-		UPROPERTY(BlueprintReadOnly)
-			bool HidePhone;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			UUserWidget* PhoneWidget;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 			UUserWidget* HoverWidget;
@@ -157,16 +142,6 @@ public:
 
 		UPROPERTY(BlueprintReadWrite)
 		bool HoverWidgetOnScreen;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
-			USoundBase* PhoneOpenSFX;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
-			USoundBase* PhoneCloseSFX;
-
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
-			USoundBase* PhoneMessageSFX;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
 			bool HasMessage;
@@ -211,53 +186,5 @@ public:
 
 		bool StepSoundIsPlaying;
 			
-
-	UFUNCTION(BlueprintCallable)
-	void FlashlightSwitch();
-
-	// Flashlight Variables
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		USpotLightComponent* CameraSpotLight;
-
-	FTimerHandle DrainTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flashlight")
-	FVector OffLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flashlight")
-	FVector OnLocation;
-
-	FTimerHandle FlashlightTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TEnumAsByte<EFlashLightState> FlashLightState;
-
-	UPROPERTY(EditDefaultsOnly)
-		float DrainAmount;
-
-	UPROPERTY(EditDefaultsOnly)
-		float ChargeAmount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float MaxBattery = 100.f;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float CurrentBattery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UMaterial* PhoneOff;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UMaterial* PhoneOn;
-
-
-	// Flashlight Functions
-
-	void DrainBattery();
-
-	void ChargeBattery();
-
-	UPROPERTY(BlueprintReadOnly)
-	bool b_StartCharge = false;
 
 };

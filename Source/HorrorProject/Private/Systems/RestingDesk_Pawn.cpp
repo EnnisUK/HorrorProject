@@ -107,15 +107,6 @@ void ARestingDesk_Pawn::InteractPure()
 			PlayerController->bEnableClickEvents = false;
 			UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
 			GameInstance->SaveGame();
-			if (ChargeStationRef)
-			{
-				if (ChargeStationRef->ChargingState == EChargingState::Charging)
-				{
-					ChargeStationRef->ChargerClicked();
-
-				}
-				
-			}
 			
 			
 		}
