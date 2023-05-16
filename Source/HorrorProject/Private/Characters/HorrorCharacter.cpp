@@ -97,7 +97,14 @@ void AHorrorCharacter::Tick(float DeltaTime)
 		HoverTrace();
 	}
 
-	
+	if (GetVelocity() == FVector(0,0,0))
+	{
+		b_IsSprinting = false;
+		GetCharacterMovement()->MaxWalkSpeed = 400;
+		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+		CameraManager->StopCameraShake(CameraShakeInstance);
+	}
 	
 }
 
@@ -108,14 +115,17 @@ void AHorrorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	// AxisMapping
 	
-	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &AHorrorCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("Move Right / Left", this, &AHorrorCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Move Forward", this, &AHorrorCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("Move Backwards", this, &AHorrorCharacter::MoveBackwards);
+	PlayerInputComponent->BindAxis("Move Right", this, &AHorrorCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Move Left", this, &AHorrorCharacter::MoveLeft);
 	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
 
 	// ActionMappings
 	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AHorrorCharacter::InteractInput);
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AHorrorCharacter::SprintFunction);
 	
 
 }
@@ -125,12 +135,22 @@ void AHorrorCharacter::MoveForward(float Val)
 
 	AddMovementInput(GetActorForwardVector() * Val);
 }
+
+void AHorrorCharacter::MoveBackwards(float Val)
+{
+	AddMovementInput(GetActorForwardVector() * Val);
+}
 	
 
 void AHorrorCharacter::MoveRight(float Val)
 {
 	AddMovementInput(GetActorRightVector() * Val);
 
+}
+
+void AHorrorCharacter::MoveLeft(float Val)
+{
+	AddMovementInput(GetActorRightVector() * Val);
 }
 
 void AHorrorCharacter::InteractInput()
@@ -216,6 +236,26 @@ void AHorrorCharacter::PlayFootSteps()
 	FVector SoundLocation = GetActorLocation() - FVector(0, 0, 44);
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), FootStepSound, SoundLocation);
 
+}
+
+void AHorrorCharacter::SprintFunction()
+{
+	if (!b_IsSprinting)
+	{
+		b_IsSprinting = true;
+		GetCharacterMovement()->MaxWalkSpeed = 550;
+		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+		CameraShakeInstance = CameraManager->StartCameraShake(CamShakeBase);
+	}
+	else
+	{
+		b_IsSprinting = false;
+		GetCharacterMovement()->MaxWalkSpeed = 400;
+		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+		CameraManager->StopCameraShake(CameraShakeInstance);
+	}
 }
 
 

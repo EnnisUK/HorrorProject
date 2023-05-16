@@ -70,7 +70,11 @@ public:
 
 	void MoveForward(float Val);
 
+	void MoveBackwards(float Val);
+
 	void MoveRight(float Val);
+
+	void MoveLeft(float Val);
 
 	void InteractInput();
 
@@ -85,11 +89,20 @@ public:
 
 	void PlayFootSteps();
 
+	void SprintFunction();
+
 	UFUNCTION(BlueprintCallable)
 	void DrainSanity(float SanityDrainAmount);
 
 
 	// Character Variables
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<UCameraShakeBase> CamShakeBase;
+
+	UCameraShakeBase* CameraShakeInstance;
+
+	bool b_IsSprinting;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UStaticMeshComponent* Lighter;
