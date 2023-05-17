@@ -76,6 +76,10 @@ public:
 
 	void MoveLeft(float Val);
 
+	void LookUp(float Val);
+
+	void LookRight(float Val);
+
 	void InteractInput();
 
 	void HoverTrace();

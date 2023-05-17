@@ -94,7 +94,11 @@ void AHorrorCharacter::Tick(float DeltaTime)
 
 	if (APawn::IsPawnControlled())
 	{
-		HoverTrace();
+		if (b_IsInGameLevel)
+		{
+			HoverTrace();
+		}
+		
 	}
 
 	if (GetVelocity() == FVector(0,0,0))
@@ -119,8 +123,8 @@ void AHorrorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("Move Backwards", this, &AHorrorCharacter::MoveBackwards);
 	PlayerInputComponent->BindAxis("Move Right", this, &AHorrorCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Move Left", this, &AHorrorCharacter::MoveLeft);
-	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &AHorrorCharacter::LookUp);
+	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &AHorrorCharacter::LookRight);
 
 	// ActionMappings
 	
@@ -151,6 +155,26 @@ void AHorrorCharacter::MoveRight(float Val)
 void AHorrorCharacter::MoveLeft(float Val)
 {
 	AddMovementInput(GetActorRightVector() * Val);
+}
+
+void AHorrorCharacter::LookUp(float Val)
+{
+	if (Val != 0.f && Controller && Controller->IsLocalPlayerController())
+	{
+		APlayerController* const PC = CastChecked<APlayerController>(Controller);
+		Val = Val * GameInstance->MouseSens;
+		PC->AddPitchInput(Val);
+	}
+}
+
+void AHorrorCharacter::LookRight(float Val)
+{
+	if (Val != 0.f && Controller && Controller->IsLocalPlayerController())
+	{
+		APlayerController* const PC = CastChecked<APlayerController>(Controller);
+		Val = Val * GameInstance->MouseSens;
+		PC->AddYawInput(Val);
+	}
 }
 
 void AHorrorCharacter::InteractInput()

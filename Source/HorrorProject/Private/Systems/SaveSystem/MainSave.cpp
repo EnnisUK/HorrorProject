@@ -20,6 +20,8 @@ UMainSave::UMainSave()
 	 b_HasLabKey = false;
 
 	 b_HasWorkshopKey = false;
+
+	 MouseSens = 1.0f;
 	 
 
 

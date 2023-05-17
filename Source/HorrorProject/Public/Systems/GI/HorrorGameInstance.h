@@ -44,6 +44,9 @@ public:
 		float MusicVolume;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float MouseSens;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<AActor*> DestroyedActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -55,4 +55,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		float SFXVolume;
 
+	UPROPERTY(EditAnywhere)
+		float MouseSens;
+
 };

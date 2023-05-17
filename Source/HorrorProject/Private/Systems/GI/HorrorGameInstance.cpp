@@ -28,11 +28,13 @@ void UHorrorGameInstance::SaveGame()
 			SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
 			SaveGameInstance->b_HasLabKey = Player->LabKey;
 			SaveGameInstance->b_HasWorkshopKey = Player->WorkshopKey;
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Player VariablesSaved"));
 		}
 		
 		SaveGameInstance->MasterVolume = MasterVolume;
 		SaveGameInstance->MusicVolume = MusicVolume;
 		SaveGameInstance->SFXVolume = SFXVolume;
+		SaveGameInstance->MouseSens = MouseSens;
 
 		isSaving = true;
 
@@ -67,11 +69,13 @@ void UHorrorGameInstance::LoadGame()
 			Player->FactoryKey = SaveGameInstance->b_HasFactoryKey;
 			Player->WorkshopKey = SaveGameInstance->b_HasWorkshopKey;
 			Player->LabKey = SaveGameInstance->b_HasLabKey;
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("Player Variables loaded"));
 		}
 
 		MasterVolume = SaveGameInstance->MasterVolume;
 		SFXVolume = SaveGameInstance->SFXVolume;
 		MusicVolume = SaveGameInstance->MusicVolume;
+		MouseSens = SaveGameInstance->MouseSens;
 
 		isLoading = true;
 	}
