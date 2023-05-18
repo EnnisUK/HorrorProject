@@ -23,7 +23,7 @@ void UHorrorGameInstance::SaveGame()
 	{
 		if (Player)
 		{
-			SaveGameInstance->PlayerSpawn = PlayerSpawn;
+			SaveGameInstance->PlayerSpawn = Player->GetActorLocation();
 			SaveGameInstance->CurrentSanity = Player->CurrentSanity;
 			SaveGameInstance->b_HasFactoryKey = Player->FactoryKey;
 			SaveGameInstance->b_HasLabKey = Player->LabKey;
